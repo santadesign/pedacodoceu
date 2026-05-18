@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital - Restaurante Pedaço do Céu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #8b1e22; /* Vermelho Vinho do logotipo original */
+            --primary-light: #fbeeeef;
+            --background-color: #f7f9fa;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --badge-bg: #f1f2f6;
+            --accent-color: #2ed573;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-main);
+            padding-bottom: 80px; /* Espaço para o botão flutuante */
+        }
+
+        /* Capa de Fundo */
+        .cover-photo {
+            height: 60px;
+            background: linear-gradient(135deg, #8b1e22 0%, #b33939 100%);
+        }
+
+        /* Cabeçalho do Estabelecimento */
+        .restaurant-header {
+            background-color: var(--card-bg);
+            padding:5px 20px 20px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        /* Espaço para colocar o logotipo circular */
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: -45px auto 12px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #fff;
+        }
+
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #f5f6fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 11px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .restaurant-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .restaurant-info {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Container de Conteúdo */
+        .menu-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Barra de Categorias Rápida (Estilo Aplicativo) */
+        .category-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            background-color: var(--card-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            text-decoration: none;
+            border: 1px solid #eef1f4;
+        }
+
+        .category-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Título das Seções */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Card de Produto */
+        .item-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #eef1f4;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* Grid de Preços por Tamanho */
+        .price-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .price-badge {
+            background-color: var(--badge-bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .price-badge strong {
+            color: var(--primary-color);
+        }
+
+        /* Customizações específicas para itens únicos (Ex: Bebidas) */
+        .single-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .single-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 15px;
+        }
+
+        .info-note {
+            background-color: #fffaf0;
+            border-left: 4px solid #f39c12;
+            padding: 10px;
+            font-size: 12px;
+            color: #7f8c8d;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        /* Botão Fixo Inferior de WhatsApp */
+        .footer-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            padding: 12px 20px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cover-photo"></div>
+
+    <header class="restaurant-header">
+        <div class="logo-container">
+            <img src="logo-1.png" alt="Logo Pedaço do Céu" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h1>Restaurante Pedaço do Céu</h1>
+        <div class="restaurant-info">
+            <p>📍 Rua Carlos de Campos, 255 - Pq. São Vicente - Mauá - SP</p>
+            <p>📞 Tel: (11) 4514-9181 | 💬 WhatsApp: (11) 98490-9682</p>
+        </div>
+        <span class="status-badge">Aberto para Pedidos</span>
+    </header>
+
+    <div class="menu-container">
+        
+        <div class="category-nav">
+            <a href="#marmitex" class="category-tab active">🍱 Marmitex</a>
+            <a href="#feijoada" class="category-tab">🍲 Feijoada Especial</a>
+            <a href="#bebidas" class="category-tab">🥤 Bebidas</a>
+        </div>
+
+        <section id="marmitex">
+            <h2 class="section-title">🍱 Cardápio Marmitex</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">
+                *Todas as opções acompanham: Arroz soltinho, feijão caseiro, salada fresca, uma opção de carboidrato (batata frita ou macarrão) e legumes refogados do dia.
+            </p>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Bisteca</h3>
+                <p class="item-description">Deliciosa bisteca suína grelhada na chapa e acebolada.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 20,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 23,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 33,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Toscana</h3>
+                <p class="item-description">Linguiça toscana assada na brasa/chapa com tempero especial.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 17,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 21,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 31,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Omelete</h3>
+                <p class="item-description">Omelete tradicional de casa feito na hora com ovos selecionados e tempero verde.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 17,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 20,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 30,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Calabresa</h3>
+                <p class="item-description">Linguiça calabresa fatiada e salteada com bastante cebola fresca.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 17,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 21,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 31,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Isca de Frango</h3>
+                <p class="item-description">Tiras macias de peito de frango grelhadas e aceboladas perfeitas para o dia a dia.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 19,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 22,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 32,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Fígado Acebolado</h3>
+                <p class="item-description">Fígado bovino cortado em tiras finas, preparado com tomates e cebola.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 19,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 22,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 32,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Frango Grelhado</h3>
+                <p class="item-description">Filé de peito de frango grelhado de forma leve e saudável.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 19,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 23,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 33,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Contra Filé Grelhado</h3>
+                <p class="item-description">Bife de contra filé premium selado na chapa com cebolas douradas.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 21,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 25,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 35,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Frango à Milanesa</h3>
+                <p class="item-description">Filé de frango empanado na farinha de rosca fina e frito até dourar.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 20,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 24,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 34,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Carne à Milanesa</h3>
+                <p class="item-description">Bife de carne bovina empanado tradicional super crocante por fora e macio por dentro.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 23,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 26,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 36,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Frango à Parmegiana</h3>
+                <p class="item-description">Filé de frango à milanesa coberto com nosso molho de tomate artesanal e queijo derretido.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 23,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 25,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 35,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex de Carne à Parmegiana</h3>
+                <p class="item-description">Bife à milanesa bovino coberto com generosa camada de queijo e molho de tomate suculento.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 24,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 27,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 37,00</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3 class="item-title">Marmitex Mista (Carne e Frango)</h3>
+                <p class="item-description">O melhor dos dois mundos: uma generosa combinação de carne bovina e frango grelhados.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>P</strong> R$ 24,00</div>
+                    <div class="price-badge"><strong>M</strong> R$ 26,00</div>
+                    <div class="price-badge"><strong>G</strong> R$ 36,00</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="feijoada">
+            <h2 class="section-title">🍲 Feijoada Especial</h2>
+            <div class="info-note">📅 Disponível apenas todas as <strong>Quartas-Feiras e Sábados</strong>.</div>
+            
+            <div class="item-card" style="border-left: 4px solid var(--primary-color);">
+                <h3 class="item-title">Feijoada Completa da Casa</h3>
+                <p class="item-description">Feijoada tradicional com carnes selecionadas, acompanha arroz, couve refogada, farofa e fatias de laranja.</p>
+                <p class="info-note" style="margin-top: 5px; margin-bottom: 10px; border:none; padding: 0;">**Nos tamanhos Médio ou maior a Feijoada vem em marmita separada.</p>
+                <div class="price-row">
+                    <div class="price-badge"><strong>Pequena</strong> R$ 28,00</div>
+                    <div class="price-badge"><strong>Média</strong> R$ 40,00</div>
+                    <div class="price-badge"><strong>Grande</strong> R$ 50,00</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bebidas">
+            <h2 class="section-title">🥤 Bebidas Geladas</h2>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Refrigerante Lata</h3>
+                    <p class="item-description">350ml (Consulte sabores)</p>
+                </div>
+                <span class="single-price">R$ 7,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Suco Lata</h3>
+                    <p class="item-description">Sabores variados</p>
+                </div>
+                <span class="single-price">R$ 7,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">H2O</h3>
+                    <p class="item-description">Garrafa 500ml</p>
+                </div>
+                <span class="single-price">R$ 8,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Sprite Fresh</h3>
+                    <p class="item-description">Garrafa limão leve</p>
+                </div>
+                <span class="single-price">R$ 8,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Água Mineral 500ml</h3>
+                    <p class="item-description">Sem gás</p>
+                </div>
+                <span class="single-price">R$ 3,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Água com Gás 500ml</h3>
+                    <p class="item-description">Garrafa fresca</p>
+                </div>
+                <span class="single-price">R$ 5,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Refrigerante 600ml</h3>
+                    <p class="item-description">Garrafa 600ml</p>
+                </div>
+                <span class="single-price">R$ 8,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Coca-Cola 600ml</h3>
+                    <p class="item-description">Garrafa gelada</p>
+                </div>
+                <span class="single-price">R$ 9,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Coca-Cola 1 Litro</h3>
+                    <p class="item-description">Garrafa retornável/descartável</p>
+                </div>
+                <span class="single-price">R$ 12,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Coca-Cola 2 Litros</h3>
+                    <p class="item-description">Tamanho família</p>
+                </div>
+                <span class="single-price">R$ 17,00</span>
+            </div>
+
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">Sukita 2 Litros</h3>
+                    <p class="item-description">Sabor Laranja</p>
+                </div>
+                <span class="single-price">R$ 13,00</span>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="footer-action">
+        <a href="https://wa.me/5511984909682" target="_blank" class="btn-whatsapp">
+            Enviar Pedido via WhatsApp
+        </a>
+    </div>
+
+</body>
+</html>
