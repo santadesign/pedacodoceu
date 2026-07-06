@@ -331,7 +331,16 @@
         </a>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
+        const SUPABASE_URL = "https://hctptkecpyuiieqmawvc.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjdHB0a2VjcHl1aWllcW1hd3ZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzNTA5MjcsImV4cCI6MjA5ODkyNjkyN30.t8-MubioN6fpvuXG2HSo5MUWYxhhlpc7iLaOXgQjaMM";
+        
+        const supabase = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
         const WHATSAPP_NUMBER = "5511984909682";
 
         function formatPrice(value) {
