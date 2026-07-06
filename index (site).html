@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título da Página -->
+    <title>Cardápio Digital - Restaurante Pedaço do Céu</title>
+
+    <!-- ÍCONE DA PÁGINA (Favicon) -->
+    <link rel="icon" type="image/png" href="logo-1.png">
+    <link rel="apple-touch-icon" href="logo-1.png">
+
+    <!-- CONFIGURAÇÕES DE COMPARTILHAMENTO (Open Graph) -->
+    <!-- Isso é o que faz aparecer a foto, título e descrição no WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Restaurante Pedaço do Céu - Cardápio Online">
+    <meta property="og:description" content="Marmitex deliciosas, feijoada especial e bebidas geladas. Peça agora pelo nosso cardápio digital!">
+    <meta property="og:image" content="https://santadesign.github.io/pedacodoceu/logo-1.png"> <!-- DICA: Para funcionar 100%, quando você hospedar o site, coloque o link completo da imagem aqui (ex: https://seusite.com.br/logo-1.png) -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Cor da barra do navegador no celular -->
+    <meta name="theme-color" content="#8b1e22">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #8b1e22; /* Vermelho Vinho do logotipo original */
+            --primary-light: #fbeeeef;
+            --background-color: #f7f9fa;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --badge-bg: #f1f2f6;
+            --accent-color: #2ed573;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-main);
+            padding-bottom: 80px; /* Espaço para o botão flutuante */
+        }
+
+        /* Capa de Fundo */
+        .cover-photo {
+            height: 60px;
+            background: linear-gradient(135deg, #8b1e22 0%, #b33939 100%);
+        }
+
+        /* Cabeçalho do Estabelecimento */
+        .restaurant-header {
+            background-color: var(--card-bg);
+            padding:5px 20px 20px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        /* Espaço para colocar o logotipo circular */
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: -45px auto 12px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #fff;
+        }
+
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #f5f6fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 11px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .restaurant-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .restaurant-info {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Container de Conteúdo */
+        .menu-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Barra de Categorias Rápida (Estilo Aplicativo) */
+        .category-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            background-color: var(--card-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            text-decoration: none;
+            border: 1px solid #eef1f4;
+        }
+
+        .category-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Título das Seções */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Card de Produto */
+        .item-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #eef1f4;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* Grid de Preços por Tamanho (Agora como Botões) */
+        .price-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .price-badge {
+            background-color: var(--badge-bg);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .price-badge:hover {
+            background-color: #e1e4ea;
+            border-color: #d1d5db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .price-badge strong {
+            color: var(--primary-color);
+        }
+
+        /* Customizações específicas para itens únicos (Ex: Bebidas) */
+        .single-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .single-price {
+            font-weight: 700;
+            color: white;
+            background-color: var(--primary-color);
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(139, 30, 34, 0.2);
+        }
+
+        .single-price:hover {
+            background-color: #70181b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(139, 30, 34, 0.3);
+        }
+
+        .info-note {
+            background-color: #fffaf0;
+            border-left: 4px solid #f39c12;
+            padding: 10px;
+            font-size: 12px;
+            color: #7f8c8d;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        /* Botão Fixo Inferior de WhatsApp */
+        .footer-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            padding: 12px 20px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-whatsapp:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cover-photo"></div>
+
+    <header class="restaurant-header">
+        <div class="logo-container">
+            <img src="logo-1.png" alt="Logo Pedaço do Céu" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h1>Restaurante Pedaço do Céu</h1>
+        <div class="restaurant-info">
+            <p>📍 Rua Carlos de Campos, 255 - Pq. São Vicente - Mauá - SP</p>
+            <p>📞 Tel: (11) 4514-9181 | 💬 WhatsApp: (11) 98490-9682</p>
+        </div>
+        <span class="status-badge">Aberto para Pedidos</span>
+    </header>
+
+    <div class="menu-container">
+
+        <nav class="category-nav" id="categoryNav">
+            <!-- Preenchido dinamicamente via cardapio.json -->
+        </nav>
+
+        <div id="menuContent">
+            <!-- Preenchido dinamicamente via cardapio.json -->
+        </div>
+
+    </div>
+
+    <div class="footer-action">
+        <a href="https://wa.me/5511984909682?text=Olá! Tudo bem? Passando para fazer meu pedido hoje com o Pedaço do Céu! 🌟🍽️" target="_blank" class="btn-whatsapp">
+            Enviar Pedido via WhatsApp
+        </a>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMBER = "5511984909682";
+
+        function formatPrice(value) {
+            return value.toFixed(2).replace(".", ",");
+        }
+
+        function buildWhatsAppLink(text) {
+            return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+        }
+
+        function buildSizedItemCard(item) {
+            const orderName = item.orderName || item.name;
+            const extraNote = item.extraNote
+                ? `<p class="info-note" style="margin-top: 5px; margin-bottom: 10px; border:none; padding: 0;">${item.extraNote}</p>`
+                : "";
+            const priceButtons = item.sizes.map(size => {
+                const text = `Olá! Gostaria de pedir uma *${orderName}* - Tamanho *${size.l}*. 🥰`;
+                return `<a href="${buildWhatsAppLink(text)}" target="_blank" class="price-badge"><strong>${size.l}</strong> R$ ${formatPrice(size.p)}</a>`;
+            }).join("\n");
+
+            const cardStyle = item.highlight ? ' style="border-left: 4px solid var(--primary-color);"' : "";
+
+            return `
+            <div class="item-card"${cardStyle}>
+                <h3 class="item-title">${item.name}</h3>
+                <p class="item-description">${item.desc}</p>
+                ${extraNote}
+                <div class="price-row">
+                    ${priceButtons}
+                </div>
+            </div>`;
+        }
+
+        function buildSinglePriceItemCard(item) {
+            const orderName = item.orderName || item.name;
+            const article = item.article || "um(a)";
+            const text = `Olá! Gostaria de pedir ${article} *${orderName}*. 🥰`;
+
+            return `
+            <div class="item-card single-price-row">
+                <div>
+                    <h3 class="item-title">${item.name}</h3>
+                    <p class="item-description">${item.desc}</p>
+                </div>
+                <a href="${buildWhatsAppLink(text)}" target="_blank" class="single-price">R$ ${formatPrice(item.price)}</a>
+            </div>`;
+        }
+
+        function buildSectionNote(section) {
+            if (!section.note) return "";
+            if (section.noteStyle === "info") {
+                return `<div class="info-note">${section.note}</div>`;
+            }
+            return `<p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">${section.note}</p>`;
+        }
+
+        async function renderMenu() {
+            const nav = document.getElementById("categoryNav");
+            const content = document.getElementById("menuContent");
+
+            try {
+                const response = await fetch("cardapio.json");
+                const sections = await response.json();
+
+                let navHtml = "";
+                let contentHtml = "";
+                let isFirstVisibleSection = true;
+
+                sections.forEach(section => {
+                    const activeItems = (section.items || []).filter(item => item.ativo === true);
+                    if (activeItems.length === 0) return;
+
+                    const sectionId = section.id || section.section.replace(/[^\w]+/g, "-").toLowerCase();
+
+                    navHtml += `<a href="#${sectionId}" class="category-tab${isFirstVisibleSection ? " active" : ""}">${section.navLabel || section.section}</a>`;
+
+                    const itemsHtml = activeItems.map(item => {
+                        return item.sizes ? buildSizedItemCard(item) : buildSinglePriceItemCard(item);
+                    }).join("\n");
+
+                    contentHtml += `
+                    <section id="${sectionId}">
+                        <h2 class="section-title">${section.title || section.section}</h2>
+                        ${buildSectionNote(section)}
+                        ${itemsHtml}
+                    </section>`;
+
+                    isFirstVisibleSection = false;
+                });
+
+                nav.innerHTML = navHtml;
+                content.innerHTML = contentHtml;
+            } catch (err) {
+                content.innerHTML = `<p style="text-align:center; color: var(--text-muted); padding: 40px 0;">Não foi possível carregar o cardápio no momento. Tente novamente em instantes.</p>`;
+                console.error("Erro ao carregar cardapio.json:", err);
+            }
+        }
+
+        renderMenu();
+    </script>
+
+</body>
+</html>
