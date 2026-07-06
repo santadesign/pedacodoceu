@@ -402,13 +402,22 @@
             const content = document.getElementById("menuContent");
 
             try {
-                const { data } = await supabase
+                const { data, error } = await supabase
                     .from("cardapio")
                     .select("dados")
                     .eq("id", "principal")
                     .single();
+
+                if (error) {
+                    console.error(error);
+                    throw error;
+                }
                 
                 const sections = data.dados;
+
+                let navHtml = "";
+                let contentHtml = "";
+                let isFirstVisibleSection = true;
 
                 sections.forEach(section => {
                     const activeItems = (section.items || []).filter(item => item.ativo === true);
