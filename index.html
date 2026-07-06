@@ -393,12 +393,13 @@
             const content = document.getElementById("menuContent");
 
             try {
-                const response = await fetch("cardapio.json");
-                const sections = await response.json();
-
-                let navHtml = "";
-                let contentHtml = "";
-                let isFirstVisibleSection = true;
+                const { data } = await supabase
+                    .from("cardapio")
+                    .select("dados")
+                    .eq("id", "principal")
+                    .single();
+                
+                const sections = data.dados;
 
                 sections.forEach(section => {
                     const activeItems = (section.items || []).filter(item => item.ativo === true);
