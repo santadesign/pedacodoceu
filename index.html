@@ -12,11 +12,10 @@
     <link rel="apple-touch-icon" href="logo-1.png">
 
     <!-- CONFIGURAÇÕES DE COMPARTILHAMENTO (Open Graph) -->
-    <!-- Isso é o que faz aparecer a foto, título e descrição no WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Restaurante Pedaço do Céu - Cardápio Online">
     <meta property="og:description" content="Marmitex deliciosas, feijoada especial e bebidas geladas. Peça agora pelo nosso cardápio digital!">
-    <meta property="og:image" content="https://santadesign.github.io/pedacodoceu/logo-1.png"> <!-- DICA: Para funcionar 100%, quando você hospedar o site, coloque o link completo da imagem aqui (ex: https://seusite.com.br/logo-1.png) -->
+    <meta property="og:image" content="https://santadesign.github.io/pedacodoceu/logo-1.png"> 
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
@@ -27,7 +26,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         :root {
-            --primary-color: #8b1e22; /* Vermelho Vinho do logotipo original */
+            --primary-color: #8b1e22;
             --primary-light: #fbeeeef;
             --background-color: #f7f9fa;
             --card-bg: #ffffff;
@@ -35,6 +34,7 @@
             --text-muted: #636e72;
             --badge-bg: #f1f2f6;
             --accent-color: #2ed573;
+            --danger-color: #ff4757;
         }
 
         * {
@@ -47,16 +47,18 @@
         body {
             background-color: var(--background-color);
             color: var(--text-main);
-            padding-bottom: 80px; /* Espaço para o botão flutuante */
         }
 
-        /* Capa de Fundo */
+        /* ----- VISÃO DO CLIENTE ----- */
+        #customer-view {
+            padding-bottom: 100px; /* Espaço para o botão flutuante e rodape */
+        }
+
         .cover-photo {
             height: 60px;
             background: linear-gradient(135deg, #8b1e22 0%, #b33939 100%);
         }
 
-        /* Cabeçalho do Estabelecimento */
         .restaurant-header {
             background-color: var(--card-bg);
             padding:5px 20px 20px 20px;
@@ -68,7 +70,6 @@
             margin-bottom: 25px;
         }
 
-        /* Espaço para colocar o logotipo circular */
         .logo-container {
             width: 90px;
             height: 90px;
@@ -81,20 +82,6 @@
             justify-content: center;
             overflow: hidden;
             border: 3px solid #fff;
-        }
-
-        .logo-placeholder {
-            width: 100%;
-            height: 100%;
-            background-color: #f5f6fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 11px;
-            text-align: center;
-            padding: 5px;
         }
 
         .restaurant-header h1 {
@@ -121,14 +108,12 @@
             margin-top: 10px;
         }
 
-        /* Container de Conteúdo */
         .menu-container {
             max-width: 650px;
             margin: 0 auto;
             padding: 0 16px;
         }
 
-        /* Barra de Categorias Rápida (Estilo Aplicativo) */
         .category-nav {
             display: flex;
             gap: 10px;
@@ -137,9 +122,7 @@
             margin-bottom: 15px;
             scrollbar-width: none;
         }
-        .category-nav::-webkit-scrollbar {
-            display: none;
-        }
+        .category-nav::-webkit-scrollbar { display: none; }
 
         .category-tab {
             background-color: var(--card-bg);
@@ -152,6 +135,7 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.03);
             text-decoration: none;
             border: 1px solid #eef1f4;
+            cursor: pointer;
         }
 
         .category-tab.active {
@@ -160,7 +144,6 @@
             border-color: var(--primary-color);
         }
 
-        /* Título das Seções */
         .section-title {
             font-size: 18px;
             font-weight: 700;
@@ -171,7 +154,6 @@
             gap: 8px;
         }
 
-        /* Card de Produto */
         .item-card {
             background-color: var(--card-bg);
             border-radius: 16px;
@@ -179,6 +161,11 @@
             margin-bottom: 14px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             border: 1px solid #eef1f4;
+        }
+
+        .item-card.disabled {
+            opacity: 0.5;
+            filter: grayscale(100%);
         }
 
         .item-title {
@@ -195,7 +182,6 @@
             margin-bottom: 12px;
         }
 
-        /* Grid de Preços por Tamanho (Agora como Botões) */
         .price-row {
             display: flex;
             gap: 8px;
@@ -224,11 +210,8 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .price-badge strong {
-            color: var(--primary-color);
-        }
+        .price-badge strong { color: var(--primary-color); }
 
-        /* Customizações específicas para itens únicos (Ex: Bebidas) */
         .single-price-row {
             display: flex;
             justify-content: space-between;
@@ -246,12 +229,13 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 2px 6px rgba(139, 30, 34, 0.2);
+            white-space: nowrap;
+            margin-left: 10px;
         }
 
         .single-price:hover {
             background-color: #70181b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(139, 30, 34, 0.3);
         }
 
         .info-note {
@@ -264,7 +248,6 @@
             margin-bottom: 12px;
         }
 
-        /* Botão Fixo Inferior de WhatsApp */
         .footer-action {
             position: fixed;
             bottom: 0;
@@ -274,7 +257,9 @@
             padding: 12px 20px;
             box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
         }
 
         .btn-whatsapp {
@@ -292,165 +277,538 @@
             transition: opacity 0.2s ease;
         }
 
-        .btn-whatsapp:hover {
-            opacity: 0.9;
+        .admin-trigger {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #ccc;
+            text-decoration: none;
+            cursor: pointer;
         }
+
+        /* ----- VISÃO DO ADMIN ----- */
+        #admin-view {
+            display: none;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.8; }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-success { background: var(--accent-color); color: white; }
+        .btn-danger { background: var(--danger-color); color: white; }
+        .btn-outline { background: transparent; border: 1px solid #ccc; color: #333; }
+
+        .admin-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .admin-item {
+            background: #f8f9fa;
+            border: 1px solid #e1e4ea;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .form-row > div { flex: 1; }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .toggle-switch input { width: 18px; height: 18px; cursor: pointer; }
+
+        .admin-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Modal Login */
+        #login-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+        .login-box h3 { margin-bottom: 15px; }
+        .login-box input { margin-bottom: 15px; text-align: center; }
+
     </style>
 </head>
 <body>
 
-    <div class="cover-photo"></div>
+    <!-- VISÃO DO CLIENTE -->
+    <div id="customer-view">
+        <div class="cover-photo"></div>
 
-    <header class="restaurant-header">
-        <div class="logo-container">
-            <img src="logo-1.png" alt="Logo Pedaço do Céu" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <h1>Restaurante Pedaço do Céu</h1>
-        <div class="restaurant-info">
-            <p>📍 Rua Carlos de Campos, 255 - Pq. São Vicente - Mauá - SP</p>
-            <p>📞 Tel: (11) 4514-9181 | 💬 WhatsApp: (11) 98490-9682</p>
-        </div>
-        <span class="status-badge">Aberto para Pedidos</span>
-    </header>
+        <header class="restaurant-header">
+            <div class="logo-container">
+                <!-- Se quiser a imagem local: logo-1.png -->
+                <img src="logo-1.png" alt="Logo Pedaço do Céu" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/90x90?text=Logo'">
+            </div>
+            <h1>Restaurante Pedaço do Céu</h1>
+            <div class="restaurant-info">
+                <p>📍 Rua Carlos de Campos, 255 - Pq. São Vicente - Mauá - SP</p>
+                <p>📞 Tel: (11) 4514-9181 | 💬 WhatsApp: (11) 98490-9682</p>
+            </div>
+            <span class="status-badge">Aberto para Pedidos</span>
+        </header>
 
-    <div class="menu-container">
-
-        <nav class="category-nav" id="categoryNav">
-            <!-- Preenchido dinamicamente via cardapio.json -->
-        </nav>
-
-        <div id="menuContent">
-            <!-- Preenchido dinamicamente via cardapio.json -->
+        <div class="menu-container">
+            <nav class="category-nav" id="categoryNav"></nav>
+            <div id="menuContent"></div>
         </div>
 
+        <div class="footer-action">
+            <a href="https://wa.me/5511984909682?text=Olá! Tudo bem? Passando para fazer meu pedido hoje com o Pedaço do Céu! 🌟🍽️" target="_blank" class="btn-whatsapp">
+                Enviar Pedido via WhatsApp
+            </a>
+            <a onclick="showLogin()" class="admin-trigger">🔒 Acesso Restrito</a>
+        </div>
     </div>
 
-    <div class="footer-action">
-        <a href="https://wa.me/5511984909682?text=Olá! Tudo bem? Passando para fazer meu pedido hoje com o Pedaço do Céu! 🌟🍽️" target="_blank" class="btn-whatsapp">
-            Enviar Pedido via WhatsApp
-        </a>
+    <!-- MODAL DE LOGIN -->
+    <div id="login-modal">
+        <div class="login-box">
+            <h3>Área Administrativa</h3>
+            <input type="password" id="adminPassword" class="form-control" placeholder="Digite a senha">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn btn-outline" onclick="closeLogin()">Cancelar</button>
+                <button class="btn btn-primary" onclick="attemptLogin()">Entrar</button>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- VISÃO DO ADMIN -->
+    <div id="admin-view">
+        <div class="admin-header">
+            <h2>Painel do Cardápio</h2>
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-success" onclick="saveAdminData()">💾 Salvar Tudo</button>
+                <button class="btn btn-outline" onclick="logout()">Sair</button>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 20px; font-size:13px; color:#666;">
+            <strong>Dica:</strong> Para produtos com preço único, use o campo "Preço Único". Para produtos com tamanhos (ex: P, M, G), deixe o preço único vazio e escreva no formato <strong>P:15.00, M:20.00</strong>.
+        </div>
+
+        <div id="admin-sections-container">
+            <!-- Gerado via JS -->
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-primary" onclick="addAdminSection()">+ Adicionar Nova Categoria</button>
+        </div>
+        
+        <hr style="margin:30px 0; border:none; border-top:1px solid #ddd;">
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h4 style="margin-bottom: 10px; color:#555;">Opções Avançadas</h4>
+            <button class="btn btn-outline" style="font-size:12px;" onclick="exportData()">⬇️ Exportar Backup</button>
+            <button class="btn btn-outline" style="font-size:12px;" onclick="importData()">⬆️ Importar Backup</button>
+        </div>
+    </div>
 
     <script>
-        const SUPABASE_URL = "https://hctptkecpyuiieqmawvc.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjdHB0a2VjcHl1aWllcW1hd3ZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzNTA5MjcsImV4cCI6MjA5ODkyNjkyN30.t8-MubioN6fpvuXG2HSo5MUWYxhhlpc7iLaOXgQjaMM";
-        
-        const supabase = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+        // CONFIGURAÇÕES GERAIS
         const WHATSAPP_NUMBER = "5511984909682";
+        const ADMIN_PASSWORD = "admin"; // <--- ALTERE A SENHA AQUI SE DESEJAR
+
+        // DADOS PADRÃO (Caso seja a primeira vez que abre o site)
+        let menuData = [
+            {
+                id: "marmitex",
+                section: "Marmitex",
+                navLabel: "Marmitex",
+                items: [
+                    { name: "Marmitex P", desc: "Arroz, feijão, mistura do dia.", ativo: true, sizes: [{l: "P", p: 15.0}] },
+                    { name: "Marmitex M", desc: "Arroz, feijão, 2 misturas.", ativo: true, sizes: [{l: "M", p: 18.0}] }
+                ]
+            },
+            {
+                id: "bebidas",
+                section: "Bebidas",
+                navLabel: "Bebidas",
+                items: [
+                    { name: "Coca-Cola Lata", desc: "350ml gelada.", ativo: true, price: 6.0 },
+                    { name: "Guaraná Antártica", desc: "Lata 350ml.", ativo: true, price: 5.0 }
+                ]
+            }
+        ];
+
+        // INICIALIZAÇÃO
+        window.onload = function() {
+            const savedData = localStorage.getItem('pedacoDoCeuMenu');
+            if (savedData) {
+                try { menuData = JSON.parse(savedData); } catch(e) { console.error("Erro ao carregar dados", e); }
+            } else {
+                localStorage.setItem('pedacoDoCeuMenu', JSON.stringify(menuData));
+            }
+            renderCustomerMenu();
+        };
+
+        // ====== FUNÇÕES DA VISÃO DO CLIENTE ====== //
 
         function formatPrice(value) {
-            return value.toFixed(2).replace(".", ",");
+            return parseFloat(value).toFixed(2).replace(".", ",");
         }
 
         function buildWhatsAppLink(text) {
             return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
         }
 
-        function buildSizedItemCard(item) {
-            const orderName = item.orderName || item.name;
-            const extraNote = item.extraNote
-                ? `<p class="info-note" style="margin-top: 5px; margin-bottom: 10px; border:none; padding: 0;">${item.extraNote}</p>`
-                : "";
-            const priceButtons = item.sizes.map(size => {
-                const text = `Olá! Gostaria de pedir uma *${orderName}* - Tamanho *${size.l}*. 🥰`;
-                return `<a href="${buildWhatsAppLink(text)}" target="_blank" class="price-badge"><strong>${size.l}</strong> R$ ${formatPrice(size.p)}</a>`;
-            }).join("\n");
-
-            const cardStyle = item.highlight ? ' style="border-left: 4px solid var(--primary-color);"' : "";
-
-            return `
-            <div class="item-card"${cardStyle}>
-                <h3 class="item-title">${item.name}</h3>
-                <p class="item-description">${item.desc}</p>
-                ${extraNote}
-                <div class="price-row">
-                    ${priceButtons}
-                </div>
-            </div>`;
-        }
-
-        function buildSinglePriceItemCard(item) {
-            const orderName = item.orderName || item.name;
-            const article = item.article || "um(a)";
-            const text = `Olá! Gostaria de pedir ${article} *${orderName}*. 🥰`;
-
-            return `
-            <div class="item-card single-price-row">
-                <div>
-                    <h3 class="item-title">${item.name}</h3>
-                    <p class="item-description">${item.desc}</p>
-                </div>
-                <a href="${buildWhatsAppLink(text)}" target="_blank" class="single-price">R$ ${formatPrice(item.price)}</a>
-            </div>`;
-        }
-
-        function buildSectionNote(section) {
-            if (!section.note) return "";
-            if (section.noteStyle === "info") {
-                return `<div class="info-note">${section.note}</div>`;
-            }
-            return `<p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">${section.note}</p>`;
-        }
-
-        async function renderMenu() {
+        function renderCustomerMenu() {
             const nav = document.getElementById("categoryNav");
             const content = document.getElementById("menuContent");
+            let navHtml = "";
+            let contentHtml = "";
+            let isFirstVisibleSection = true;
 
-            try {
-                const { data, error } = await supabase
-                    .from("cardapio")
-                    .select("dados")
-                    .eq("id", "principal")
-                    .single();
+            menuData.forEach(section => {
+                const activeItems = (section.items || []).filter(item => item.ativo === true);
+                if (activeItems.length === 0) return;
 
-                if (error) {
-                    console.error(error);
-                    throw error;
+                const sectionId = section.id || section.section.replace(/[^\w]+/g, "-").toLowerCase();
+
+                navHtml += `<a href="#${sectionId}" class="category-tab${isFirstVisibleSection ? " active" : ""}">${section.navLabel || section.section}</a>`;
+
+                const itemsHtml = activeItems.map(item => {
+                    const extraNote = item.extraNote ? `<p class="info-note" style="margin-top: 5px; margin-bottom: 10px; border:none; padding: 0;">${item.extraNote}</p>` : "";
+                    const cardStyle = item.highlight ? ' style="border-left: 4px solid var(--primary-color);"' : "";
+                    
+                    // Checa se tem multiplos tamanhos ou preco unico
+                    if (item.sizes && item.sizes.length > 0) {
+                        const priceButtons = item.sizes.map(size => {
+                            const text = `Olá! Gostaria de pedir um(a) *${item.name}* - Tamanho *${size.l}*. 🥰`;
+                            return `<a href="${buildWhatsAppLink(text)}" target="_blank" class="price-badge"><strong>${size.l}</strong> R$ ${formatPrice(size.p)}</a>`;
+                        }).join("");
+                        
+                        return `
+                        <div class="item-card"${cardStyle}>
+                            <h3 class="item-title">${item.name}</h3>
+                            <p class="item-description">${item.desc}</p>
+                            ${extraNote}
+                            <div class="price-row">${priceButtons}</div>
+                        </div>`;
+                    } else {
+                        const text = `Olá! Gostaria de pedir um(a) *${item.name}*. 🥰`;
+                        return `
+                        <div class="item-card single-price-row"${cardStyle}>
+                            <div>
+                                <h3 class="item-title">${item.name}</h3>
+                                <p class="item-description">${item.desc}</p>
+                                ${extraNote}
+                            </div>
+                            <a href="${buildWhatsAppLink(text)}" target="_blank" class="single-price">R$ ${formatPrice(item.price || 0)}</a>
+                        </div>`;
+                    }
+                }).join("");
+
+                const sectionNoteHtml = section.note ? `<p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">${section.note}</p>` : "";
+
+                contentHtml += `
+                <section id="${sectionId}">
+                    <h2 class="section-title">${section.title || section.section}</h2>
+                    ${sectionNoteHtml}
+                    ${itemsHtml}
+                </section>`;
+
+                isFirstVisibleSection = false;
+            });
+
+            nav.innerHTML = navHtml;
+            content.innerHTML = contentHtml;
+        }
+
+        // ====== CONTROLE DE LOGIN E VIEWS ====== //
+        
+        function showLogin() {
+            document.getElementById('login-modal').style.display = 'flex';
+        }
+        function closeLogin() {
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+        }
+        function attemptLogin() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === ADMIN_PASSWORD) {
+                closeLogin();
+                document.getElementById('customer-view').style.display = 'none';
+                document.getElementById('admin-view').style.display = 'block';
+                window.scrollTo(0,0);
+                renderAdminPanel();
+            } else {
+                alert("Senha incorreta!");
+            }
+        }
+        function logout() {
+            document.getElementById('admin-view').style.display = 'none';
+            document.getElementById('customer-view').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        // ====== FUNÇÕES DA VISÃO DO ADMIN ====== //
+
+        // Converte array de tamanhos para string "P:15, M:20"
+        function sizesToString(sizesArr) {
+            if(!sizesArr || sizesArr.length === 0) return "";
+            return sizesArr.map(s => `${s.l}:${s.p}`).join(", ");
+        }
+
+        // Converte string "P:15, M:20" para array [{l:"P", p:15}, ...]
+        function stringToSizes(str) {
+            if(!str || str.trim() === "") return [];
+            return str.split(",").map(item => {
+                const parts = item.split(":");
+                if(parts.length === 2) {
+                    return { l: parts[0].trim(), p: parseFloat(parts[1].trim()) || 0 };
                 }
+                return null;
+            }).filter(i => i !== null);
+        }
+
+        function renderAdminPanel() {
+            const container = document.getElementById('admin-sections-container');
+            container.innerHTML = '';
+
+            menuData.forEach((section, sIndex) => {
+                const secDiv = document.createElement('div');
+                secDiv.className = 'admin-section';
                 
-                const sections = data.dados;
+                let itemsHtml = (section.items || []).map((item, iIndex) => {
+                    const priceVal = item.price ? item.price : "";
+                    const sizesVal = item.sizes ? sizesToString(item.sizes) : "";
+                    const isAtivo = item.ativo ? "checked" : "";
+                    
+                    return `
+                    <div class="admin-item ${item.ativo ? '' : 'disabled'}">
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 2;">
+                                <label>Nome do Item</label>
+                                <input type="text" class="form-control item-name" value="${item.name}">
+                            </div>
+                            <div class="form-group toggle-switch">
+                                <label style="margin:0;">Disponível (Ativo)</label>
+                                <input type="checkbox" class="item-ativo" ${isAtivo}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Descrição / Ingredientes</label>
+                            <input type="text" class="form-control item-desc" value="${item.desc || ''}">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Preço Único (Deixe vazio se tiver tamanhos)</label>
+                                <input type="number" step="0.01" class="form-control item-price" value="${priceVal}" placeholder="Ex: 25.50">
+                            </div>
+                            <div class="form-group">
+                                <label>Tamanhos Múltiplos (Ex: P:15.00, M:20.00)</label>
+                                <input type="text" class="form-control item-sizes" value="${sizesVal}" placeholder="P:15.00, M:20.00">
+                            </div>
+                        </div>
+                        <div class="admin-actions">
+                            <small style="color:#888;">ID: ${iIndex}</small>
+                            <button class="btn btn-danger btn-sm" onclick="removeAdminItem(${sIndex}, ${iIndex})">🗑️ Excluir Item</button>
+                        </div>
+                    </div>`;
+                }).join('');
 
-                let navHtml = "";
-                let contentHtml = "";
-                let isFirstVisibleSection = true;
-
-                sections.forEach(section => {
-                    const activeItems = (section.items || []).filter(item => item.ativo === true);
-                    if (activeItems.length === 0) return;
-
-                    const sectionId = section.id || section.section.replace(/[^\w]+/g, "-").toLowerCase();
-
-                    navHtml += `<a href="#${sectionId}" class="category-tab${isFirstVisibleSection ? " active" : ""}">${section.navLabel || section.section}</a>`;
-
-                    const itemsHtml = activeItems.map(item => {
-                        return item.sizes ? buildSizedItemCard(item) : buildSinglePriceItemCard(item);
-                    }).join("\n");
-
-                    contentHtml += `
-                    <section id="${sectionId}">
-                        <h2 class="section-title">${section.title || section.section}</h2>
-                        ${buildSectionNote(section)}
+                secDiv.innerHTML = `
+                    <div class="form-row" style="align-items: flex-end; margin-bottom: 15px;">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>Nome da Categoria</label>
+                            <input type="text" class="form-control sec-name" value="${section.section}">
+                        </div>
+                        <button class="btn btn-danger" onclick="removeAdminSection(${sIndex})">Excluir Categoria</button>
+                    </div>
+                    <div id="items-container-${sIndex}">
                         ${itemsHtml}
-                    </section>`;
+                    </div>
+                    <button class="btn btn-outline" style="margin-top:15px; width:100%; border-style: dashed;" onclick="addAdminItem(${sIndex})">+ Adicionar Item em ${section.section}</button>
+                `;
+                container.appendChild(secDiv);
+            });
+        }
 
-                    isFirstVisibleSection = false;
-                });
+        function addAdminSection() {
+            menuData.push({
+                id: "cat-" + Date.now(),
+                section: "Nova Categoria",
+                navLabel: "Nova Categoria",
+                items: []
+            });
+            renderAdminPanel();
+        }
 
-                nav.innerHTML = navHtml;
-                content.innerHTML = contentHtml;
-            } catch (err) {
-                content.innerHTML = `<p style="text-align:center; color: var(--text-muted); padding: 40px 0;">Não foi possível carregar o cardápio no momento. Tente novamente em instantes.</p>`;
-                console.error("Erro ao carregar cardapio.json:", err);
+        function removeAdminSection(sIndex) {
+            if(confirm("Tem certeza que deseja excluir esta CATEGORIA INTEIRA?")) {
+                menuData.splice(sIndex, 1);
+                renderAdminPanel();
             }
         }
 
-        renderMenu();
-    </script>
+        function addAdminItem(sIndex) {
+            menuData[sIndex].items.push({
+                name: "Novo Item",
+                desc: "",
+                ativo: true,
+                price: 0
+            });
+            renderAdminPanel();
+        }
 
+        function removeAdminItem(sIndex, iIndex) {
+            if(confirm("Excluir este item?")) {
+                menuData[sIndex].items.splice(iIndex, 1);
+                renderAdminPanel();
+            }
+        }
+
+        // Lê a tela do admin e salva na memória local
+        function saveAdminData() {
+            const container = document.getElementById('admin-sections-container');
+            const sectionDivs = container.querySelectorAll('.admin-section');
+            
+            let newData = [];
+
+            sectionDivs.forEach((secDiv, sIndex) => {
+                const secName = secDiv.querySelector('.sec-name').value;
+                let sectionObj = {
+                    id: secName.replace(/[^\w]+/g, "-").toLowerCase() + "-" + sIndex,
+                    section: secName,
+                    navLabel: secName,
+                    items: []
+                };
+
+                const itemDivs = secDiv.querySelectorAll('.admin-item');
+                itemDivs.forEach(itemDiv => {
+                    const name = itemDiv.querySelector('.item-name').value;
+                    const desc = itemDiv.querySelector('.item-desc').value;
+                    const ativo = itemDiv.querySelector('.item-ativo').checked;
+                    const priceRaw = itemDiv.querySelector('.item-price').value;
+                    const sizesRaw = itemDiv.querySelector('.item-sizes').value;
+
+                    let itemObj = { name, desc, ativo };
+
+                    // Lógica para decidir se salva como price unico ou sizes
+                    if (sizesRaw.trim() !== "") {
+                        itemObj.sizes = stringToSizes(sizesRaw);
+                    } else if (priceRaw.trim() !== "") {
+                        itemObj.price = parseFloat(priceRaw);
+                    } else {
+                        itemObj.price = 0; // fallback
+                    }
+
+                    sectionObj.items.push(itemObj);
+                });
+
+                newData.push(sectionObj);
+            });
+
+            menuData = newData;
+            localStorage.setItem('pedacoDoCeuMenu', JSON.stringify(menuData));
+            
+            alert("Cardápio salvo com sucesso!");
+            renderAdminPanel(); // re-renderiza para atualizar visual
+            renderCustomerMenu(); // Atualiza a visão do cliente nos bastidores
+        }
+
+        // Ferramentas de Backup (Como o Github Pages é estático, isso ajuda a não perder dados se limpar o cache)
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(menuData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "cardapio_backup.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function importData() {
+            const input = prompt("Cole aqui o conteúdo do seu arquivo JSON de backup:");
+            if (input) {
+                try {
+                    const parsed = JSON.parse(input);
+                    if (Array.isArray(parsed)) {
+                        menuData = parsed;
+                        localStorage.setItem('pedacoDoCeuMenu', JSON.stringify(menuData));
+                        renderAdminPanel();
+                        renderCustomerMenu();
+                        alert("Backup importado com sucesso!");
+                    } else {
+                        alert("Formato de dados inválido.");
+                    }
+                } catch (e) {
+                    alert("Erro ao ler o JSON. Verifique se copiou corretamente.");
+                }
+            }
+        }
+    </script>
 </body>
 </html>
