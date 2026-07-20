@@ -482,25 +482,360 @@
 
         // DADOS PADRÃO (Caso seja a primeira vez que abre o site)
         let menuData = [
-            {
-                id: "marmitex",
-                section: "Marmitex",
-                navLabel: "Marmitex",
-                items: [
-                    { name: "Marmitex P", desc: "Arroz, feijão, mistura do dia.", ativo: true, sizes: [{l: "P", p: 15.0}] },
-                    { name: "Marmitex M", desc: "Arroz, feijão, 2 misturas.", ativo: true, sizes: [{l: "M", p: 18.0}] }
-                ]
-            },
-            {
-                id: "bebidas",
-                section: "Bebidas",
-                navLabel: "Bebidas",
-                items: [
-                    { name: "Coca-Cola Lata", desc: "350ml gelada.", ativo: true, price: 6.0 },
-                    { name: "Guaraná Antártica", desc: "Lata 350ml.", ativo: true, price: 5.0 }
-                ]
-            }
-        ];
+  {
+    "id": "marmitex-0",
+    "section": "Marmitex",
+    "navLabel": "Marmitex",
+    "items": [
+      {
+        "name": "Bisteca",
+        "desc": "Marmitex de bisteca.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 20
+          },
+          {
+            "l": "M",
+            "p": 23
+          },
+          {
+            "l": "G",
+            "p": 33
+          }
+        ]
+      },
+      {
+        "name": "Toscana",
+        "desc": "Marmitex de toscana.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 17
+          },
+          {
+            "l": "M",
+            "p": 21
+          },
+          {
+            "l": "G",
+            "p": 31
+          }
+        ]
+      },
+      {
+        "name": "Omelete",
+        "desc": "Marmitex de omelete.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 17
+          },
+          {
+            "l": "M",
+            "p": 20
+          },
+          {
+            "l": "G",
+            "p": 30
+          }
+        ]
+      },
+      {
+        "name": "Calabresa",
+        "desc": "Marmitex de calabresa.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 17
+          },
+          {
+            "l": "M",
+            "p": 21
+          },
+          {
+            "l": "G",
+            "p": 31
+          }
+        ]
+      },
+      {
+        "name": "Isca de Frango",
+        "desc": "Marmitex de isca de frango.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 19
+          },
+          {
+            "l": "M",
+            "p": 22
+          },
+          {
+            "l": "G",
+            "p": 32
+          }
+        ]
+      },
+      {
+        "name": "Fígado Acebolado",
+        "desc": "Marmitex de fígado acebolado.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 19
+          },
+          {
+            "l": "M",
+            "p": 22
+          },
+          {
+            "l": "G",
+            "p": 32
+          }
+        ]
+      },
+      {
+        "name": "Frango Grelhado",
+        "desc": "Marmitex de frango grelhado.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 19
+          },
+          {
+            "l": "M",
+            "p": 23
+          },
+          {
+            "l": "G",
+            "p": 33
+          }
+        ]
+      },
+      {
+        "name": "Contra Filé Grelhado",
+        "desc": "Marmitex de contra filé grelhado.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 21
+          },
+          {
+            "l": "M",
+            "p": 25
+          },
+          {
+            "l": "G",
+            "p": 35
+          }
+        ]
+      },
+      {
+        "name": "Frango à Milanesa",
+        "desc": "Marmitex de frango à milanesa.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 20
+          },
+          {
+            "l": "M",
+            "p": 24
+          },
+          {
+            "l": "G",
+            "p": 34
+          }
+        ]
+      },
+      {
+        "name": "Carne à Milanesa",
+        "desc": "Marmitex de carne à milanesa.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 23
+          },
+          {
+            "l": "M",
+            "p": 26
+          },
+          {
+            "l": "G",
+            "p": 36
+          }
+        ]
+      },
+      {
+        "name": "Frango à Parmegiana",
+        "desc": "Marmitex de frango à parmegiana.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 23
+          },
+          {
+            "l": "M",
+            "p": 25
+          },
+          {
+            "l": "G",
+            "p": 35
+          }
+        ]
+      },
+      {
+        "name": "Carne à Parmegiana",
+        "desc": "Marmitex de carne à parmegiana.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 24
+          },
+          {
+            "l": "M",
+            "p": 27
+          },
+          {
+            "l": "G",
+            "p": 37
+          }
+        ]
+      },
+      {
+        "name": "Mista de Carne e Frango",
+        "desc": "Marmitex mista de carne e frango.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 24
+          },
+          {
+            "l": "M",
+            "p": 26
+          },
+          {
+            "l": "G",
+            "p": 36
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "feijoada-1",
+    "section": "Feijoada",
+    "navLabel": "Feijoada",
+    "items": [
+      {
+        "name": "Feijoada",
+        "desc": "Disponível às quartas-feiras e sábados. Nos tamanhos M e G acompanha marmita separada.",
+        "ativo": true,
+        "sizes": [
+          {
+            "l": "P",
+            "p": 28
+          },
+          {
+            "l": "M",
+            "p": 40
+          },
+          {
+            "l": "G",
+            "p": 50
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bebidas-2",
+    "section": "Bebidas",
+    "navLabel": "Bebidas",
+    "items": [
+      {
+        "name": "Refrigerante Lata",
+        "desc": "Lata.",
+        "ativo": true,
+        "price": 7
+      },
+      {
+        "name": "Suco Lata",
+        "desc": "Lata.",
+        "ativo": true,
+        "price": 7
+      },
+      {
+        "name": "H2O",
+        "desc": "Garrafa.",
+        "ativo": true,
+        "price": 8
+      },
+      {
+        "name": "Sprite Fresh",
+        "desc": "Garrafa.",
+        "ativo": true,
+        "price": 8
+      },
+      {
+        "name": "Água 500ml",
+        "desc": "Sem gás.",
+        "ativo": true,
+        "price": 3
+      },
+      {
+        "name": "Água com Gás 500ml",
+        "desc": "Com gás.",
+        "ativo": true,
+        "price": 5
+      },
+      {
+        "name": "Refrigerante 600ml",
+        "desc": "Garrafa 600ml.",
+        "ativo": true,
+        "price": 8
+      },
+      {
+        "name": "Coca-Cola 600ml",
+        "desc": "Garrafa 600ml.",
+        "ativo": true,
+        "price": 9
+      },
+      {
+        "name": "Coca-Cola 1L",
+        "desc": "Garrafa 1 Litro",
+        "ativo": true,
+        "price": 12
+      },
+      {
+        "name": "Coca-Cola 2L",
+        "desc": "Garrafa 2 Litros",
+        "ativo": true,
+        "price": 17
+      },
+      {
+        "name": "Sukita 2L",
+        "desc": "Garrafa 2 Litros",
+        "ativo": true,
+        "price": 13
+      }
+    ]
+  }
+];
 
         // INICIALIZAÇÃO
         window.onload = function() {
