@@ -423,7 +423,6 @@
 
         <header class="restaurant-header">
             <div class="logo-container">
-                <!-- Se quiser a imagem local: logo-1.png -->
                 <img src="logo-1.png" alt="Logo Pedaço do Céu" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/90x90?text=Logo'">
             </div>
             <h1>Restaurante Pedaço do Céu</h1>
@@ -498,7 +497,6 @@
         const ADMIN_PASSWORD = "admin"; // <--- ALTERE A SENHA AQUI SE DESEJAR
 
         // ====== CONFIGURAÇÃO DO FIREBASE ======
-        // Substitua pelos dados do SEU projeto (Firebase Console > Configurações do Projeto > Seus apps > SDK)
         const firebaseConfig = {
           apiKey: "AIzaSyBUo0zhTtHrt2hG0CHhalUmVdu3zktmNpQ",
           authDomain: "pedacodoceu-site.firebaseapp.com",
@@ -509,11 +507,12 @@
           appId: "1:474155338555:web:702925310325e20da6c51e"
         };
 
-        const app = initializeApp(firebaseConfig);
+        // CORREÇÃO: Usando a inicialização compatível correta
+        firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const menuRef = db.ref('cardapio'); // todo o cardápio fica salvo neste único "nó"
+        const menuRef = db.ref('cardapio'); 
 
-        // DADOS PADRÃO (usados apenas na primeiríssima vez, antes de existir algo no Firebase)
+        // DADOS PADRÃO
         let menuData = [
   {
     "id": "marmitex-0",
@@ -689,9 +688,6 @@
   }
 ];
 
-        // INICIALIZAÇÃO
-        // Escuta o Firebase em tempo real: assim que os dados mudarem (em qualquer dispositivo),
-        // o cardápio do cliente atualiza sozinho, sem precisar recarregar a página.
         window.onload = function() {
             menuRef.on('value',
                 (snapshot) => {
@@ -699,19 +695,16 @@
                     if (savedData) {
                         menuData = savedData;
                     } else {
-                        // Primeira vez que o site roda: envia os dados padrão para o Firebase
                         menuRef.set(menuData);
                     }
                     renderCustomerMenu();
                 },
                 (error) => {
                     console.error("Erro ao conectar ao Firebase:", error);
-                    renderCustomerMenu(); // usa os dados padrão em memória caso dê erro
+                    renderCustomerMenu();
                 }
             );
         };
-
-        // ====== FUNÇÕES DA VISÃO DO CLIENTE ====== //
 
         function formatPrice(value) {
             return parseFloat(value).toFixed(2).replace(".", ",");
@@ -740,7 +733,6 @@
                     const extraNote = item.extraNote ? `<p class="info-note" style="margin-top: 5px; margin-bottom: 10px; border:none; padding: 0;">${item.extraNote}</p>` : "";
                     const cardStyle = item.highlight ? ' style="border-left: 4px solid var(--primary-color);"' : "";
                     
-                    // Checa se tem multiplos tamanhos ou preco unico
                     if (item.sizes && item.sizes.length > 0) {
                         const priceButtons = item.sizes.map(size => {
                             const text = `Olá! Gostaria de pedir um(a) *${item.name}* - Tamanho *${size.l}*. 🥰`;
@@ -783,8 +775,6 @@
             nav.innerHTML = navHtml;
             content.innerHTML = contentHtml;
         }
-
-        // ====== CONTROLE DE LOGIN E VIEWS ====== //
         
         function showLogin() {
             document.getElementById('login-modal').style.display = 'flex';
@@ -811,8 +801,6 @@
             window.scrollTo(0,0);
         }
 
-        // ====== FUNÇÕES DA VISÃO DO ADMIN ====== //
-
         function setSyncStatus(type, message) {
             const el = document.getElementById('syncStatus');
             if (!el) return;
@@ -820,13 +808,11 @@
             el.textContent = message;
         }
 
-        // Converte array de tamanhos para string "P:15, M:20"
         function sizesToString(sizesArr) {
             if(!sizesArr || sizesArr.length === 0) return "";
             return sizesArr.map(s => `${s.l}:${s.p}`).join(", ");
         }
 
-        // Converte string "P:15, M:20" para array [{l:"P", p:15}, ...]
         function stringToSizes(str) {
             if(!str || str.trim() === "") return [];
             return str.split(",").map(item => {
@@ -937,7 +923,6 @@
             }
         }
 
-        // Lê a tela do admin e grava no Firebase (fica disponível para todos os dispositivos)
         function saveAdminData() {
             const container = document.getElementById('admin-sections-container');
             const sectionDivs = container.querySelectorAll('.admin-section');
@@ -963,13 +948,12 @@
 
                     let itemObj = { name, desc, ativo };
 
-                    // Lógica para decidir se salva como price unico ou sizes
                     if (sizesRaw.trim() !== "") {
                         itemObj.sizes = stringToSizes(sizesRaw);
                     } else if (priceRaw.trim() !== "") {
                         itemObj.price = parseFloat(priceRaw);
                     } else {
-                        itemObj.price = 0; // fallback
+                        itemObj.price = 0; 
                     }
 
                     sectionObj.items.push(itemObj);
@@ -986,8 +970,6 @@
                     setSyncStatus('ok', '✅ Cardápio salvo e sincronizado com todos os dispositivos');
                     alert("Cardápio salvo com sucesso! Todos os dispositivos serão atualizados automaticamente.");
                     renderAdminPanel();
-                    // Não precisa chamar renderCustomerMenu() aqui: o listener menuRef.on('value', ...)
-                    // já é disparado automaticamente assim que o Firebase confirma a gravação.
                 })
                 .catch((error) => {
                     setSyncStatus('error', '❌ Erro ao salvar: ' + error.message);
@@ -995,7 +977,6 @@
                 });
         }
 
-        // Ferramentas de Backup (útil para ter uma cópia local do cardápio)
         function exportData() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(menuData, null, 2));
             const downloadAnchorNode = document.createElement('a');
