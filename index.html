@@ -22,6 +22,10 @@
     <!-- Cor da barra do navegador no celular -->
     <meta name="theme-color" content="#8b1e22">
 
+    <!-- ====== FIREBASE (banco de dados compartilhado do cardápio) ====== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -377,6 +381,17 @@
             align-items: center;
         }
 
+        .sync-status {
+            font-size: 12px;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .sync-status.ok { background: #eafff2; color: #1a8a4a; }
+        .sync-status.error { background: #fff0f0; color: #c0392b; }
+        .sync-status.loading { background: #f1f2f6; color: #636e72; }
+
         /* Modal Login */
         #login-modal {
             display: none;
@@ -453,6 +468,8 @@
                 <button class="btn btn-outline" onclick="logout()">Sair</button>
             </div>
         </div>
+
+        <div id="syncStatus" class="sync-status loading">Conectando ao banco de dados...</div>
         
         <div style="margin-bottom: 20px; font-size:13px; color:#666;">
             <strong>Dica:</strong> Para produtos com preço único, use o campo "Preço Único". Para produtos com tamanhos (ex: P, M, G), deixe o preço único vazio e escreva no formato <strong>P:15.00, M:20.00</strong>.
@@ -480,7 +497,23 @@
         const WHATSAPP_NUMBER = "5511984909682";
         const ADMIN_PASSWORD = "admin"; // <--- ALTERE A SENHA AQUI SE DESEJAR
 
-        // DADOS PADRÃO (Caso seja a primeira vez que abre o site)
+        // ====== CONFIGURAÇÃO DO FIREBASE ======
+        // Substitua pelos dados do SEU projeto (Firebase Console > Configurações do Projeto > Seus apps > SDK)
+        const firebaseConfig = {
+          apiKey: "AIzaSyBUo0zhTtHrt2hG0CHhalUmVdu3zktmNpQ",
+          authDomain: "pedacodoceu-site.firebaseapp.com",
+          databaseURL: "https://pedacodoceu-site-default-rtdb.firebaseio.com",
+          projectId: "pedacodoceu-site",
+          storageBucket: "pedacodoceu-site.firebasestorage.app",
+          messagingSenderId: "474155338555",
+          appId: "1:474155338555:web:702925310325e20da6c51e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const menuRef = db.ref('cardapio'); // todo o cardápio fica salvo neste único "nó"
+
+        // DADOS PADRÃO (usados apenas na primeiríssima vez, antes de existir algo no Firebase)
         let menuData = [
   {
     "id": "marmitex-0",
@@ -492,18 +525,9 @@
         "desc": "Marmitex de bisteca.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 20
-          },
-          {
-            "l": "M",
-            "p": 23
-          },
-          {
-            "l": "G",
-            "p": 33
-          }
+          { "l": "P", "p": 20 },
+          { "l": "M", "p": 23 },
+          { "l": "G", "p": 33 }
         ]
       },
       {
@@ -511,18 +535,9 @@
         "desc": "Marmitex de toscana.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 17
-          },
-          {
-            "l": "M",
-            "p": 21
-          },
-          {
-            "l": "G",
-            "p": 31
-          }
+          { "l": "P", "p": 17 },
+          { "l": "M", "p": 21 },
+          { "l": "G", "p": 31 }
         ]
       },
       {
@@ -530,18 +545,9 @@
         "desc": "Marmitex de omelete.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 17
-          },
-          {
-            "l": "M",
-            "p": 20
-          },
-          {
-            "l": "G",
-            "p": 30
-          }
+          { "l": "P", "p": 17 },
+          { "l": "M", "p": 20 },
+          { "l": "G", "p": 30 }
         ]
       },
       {
@@ -549,18 +555,9 @@
         "desc": "Marmitex de calabresa.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 17
-          },
-          {
-            "l": "M",
-            "p": 21
-          },
-          {
-            "l": "G",
-            "p": 31
-          }
+          { "l": "P", "p": 17 },
+          { "l": "M", "p": 21 },
+          { "l": "G", "p": 31 }
         ]
       },
       {
@@ -568,18 +565,9 @@
         "desc": "Marmitex de isca de frango.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 19
-          },
-          {
-            "l": "M",
-            "p": 22
-          },
-          {
-            "l": "G",
-            "p": 32
-          }
+          { "l": "P", "p": 19 },
+          { "l": "M", "p": 22 },
+          { "l": "G", "p": 32 }
         ]
       },
       {
@@ -587,18 +575,9 @@
         "desc": "Marmitex de fígado acebolado.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 19
-          },
-          {
-            "l": "M",
-            "p": 22
-          },
-          {
-            "l": "G",
-            "p": 32
-          }
+          { "l": "P", "p": 19 },
+          { "l": "M", "p": 22 },
+          { "l": "G", "p": 32 }
         ]
       },
       {
@@ -606,18 +585,9 @@
         "desc": "Marmitex de frango grelhado.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 19
-          },
-          {
-            "l": "M",
-            "p": 23
-          },
-          {
-            "l": "G",
-            "p": 33
-          }
+          { "l": "P", "p": 19 },
+          { "l": "M", "p": 23 },
+          { "l": "G", "p": 33 }
         ]
       },
       {
@@ -625,18 +595,9 @@
         "desc": "Marmitex de contra filé grelhado.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 21
-          },
-          {
-            "l": "M",
-            "p": 25
-          },
-          {
-            "l": "G",
-            "p": 35
-          }
+          { "l": "P", "p": 21 },
+          { "l": "M", "p": 25 },
+          { "l": "G", "p": 35 }
         ]
       },
       {
@@ -644,18 +605,9 @@
         "desc": "Marmitex de frango à milanesa.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 20
-          },
-          {
-            "l": "M",
-            "p": 24
-          },
-          {
-            "l": "G",
-            "p": 34
-          }
+          { "l": "P", "p": 20 },
+          { "l": "M", "p": 24 },
+          { "l": "G", "p": 34 }
         ]
       },
       {
@@ -663,18 +615,9 @@
         "desc": "Marmitex de carne à milanesa.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 23
-          },
-          {
-            "l": "M",
-            "p": 26
-          },
-          {
-            "l": "G",
-            "p": 36
-          }
+          { "l": "P", "p": 23 },
+          { "l": "M", "p": 26 },
+          { "l": "G", "p": 36 }
         ]
       },
       {
@@ -682,18 +625,9 @@
         "desc": "Marmitex de frango à parmegiana.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 23
-          },
-          {
-            "l": "M",
-            "p": 25
-          },
-          {
-            "l": "G",
-            "p": 35
-          }
+          { "l": "P", "p": 23 },
+          { "l": "M", "p": 25 },
+          { "l": "G", "p": 35 }
         ]
       },
       {
@@ -701,18 +635,9 @@
         "desc": "Marmitex de carne à parmegiana.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 24
-          },
-          {
-            "l": "M",
-            "p": 27
-          },
-          {
-            "l": "G",
-            "p": 37
-          }
+          { "l": "P", "p": 24 },
+          { "l": "M", "p": 27 },
+          { "l": "G", "p": 37 }
         ]
       },
       {
@@ -720,18 +645,9 @@
         "desc": "Marmitex mista de carne e frango.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 24
-          },
-          {
-            "l": "M",
-            "p": 26
-          },
-          {
-            "l": "G",
-            "p": 36
-          }
+          { "l": "P", "p": 24 },
+          { "l": "M", "p": 26 },
+          { "l": "G", "p": 36 }
         ]
       }
     ]
@@ -746,18 +662,9 @@
         "desc": "Disponível às quartas-feiras e sábados. Nos tamanhos M e G acompanha marmita separada.",
         "ativo": true,
         "sizes": [
-          {
-            "l": "P",
-            "p": 28
-          },
-          {
-            "l": "M",
-            "p": 40
-          },
-          {
-            "l": "G",
-            "p": 50
-          }
+          { "l": "P", "p": 28 },
+          { "l": "M", "p": 40 },
+          { "l": "G", "p": 50 }
         ]
       }
     ]
@@ -767,85 +674,41 @@
     "section": "Bebidas",
     "navLabel": "Bebidas",
     "items": [
-      {
-        "name": "Refrigerante Lata",
-        "desc": "Lata.",
-        "ativo": true,
-        "price": 7
-      },
-      {
-        "name": "Suco Lata",
-        "desc": "Lata.",
-        "ativo": true,
-        "price": 7
-      },
-      {
-        "name": "H2O",
-        "desc": "Garrafa.",
-        "ativo": true,
-        "price": 8
-      },
-      {
-        "name": "Sprite Fresh",
-        "desc": "Garrafa.",
-        "ativo": true,
-        "price": 8
-      },
-      {
-        "name": "Água 500ml",
-        "desc": "Sem gás.",
-        "ativo": true,
-        "price": 3
-      },
-      {
-        "name": "Água com Gás 500ml",
-        "desc": "Com gás.",
-        "ativo": true,
-        "price": 5
-      },
-      {
-        "name": "Refrigerante 600ml",
-        "desc": "Garrafa 600ml.",
-        "ativo": true,
-        "price": 8
-      },
-      {
-        "name": "Coca-Cola 600ml",
-        "desc": "Garrafa 600ml.",
-        "ativo": true,
-        "price": 9
-      },
-      {
-        "name": "Coca-Cola 1L",
-        "desc": "Garrafa 1 Litro",
-        "ativo": true,
-        "price": 12
-      },
-      {
-        "name": "Coca-Cola 2L",
-        "desc": "Garrafa 2 Litros",
-        "ativo": true,
-        "price": 17
-      },
-      {
-        "name": "Sukita 2L",
-        "desc": "Garrafa 2 Litros",
-        "ativo": true,
-        "price": 13
-      }
+      { "name": "Refrigerante Lata", "desc": "Lata.", "ativo": true, "price": 7 },
+      { "name": "Suco Lata", "desc": "Lata.", "ativo": true, "price": 7 },
+      { "name": "H2O", "desc": "Garrafa.", "ativo": true, "price": 8 },
+      { "name": "Sprite Fresh", "desc": "Garrafa.", "ativo": true, "price": 8 },
+      { "name": "Água 500ml", "desc": "Sem gás.", "ativo": true, "price": 3 },
+      { "name": "Água com Gás 500ml", "desc": "Com gás.", "ativo": true, "price": 5 },
+      { "name": "Refrigerante 600ml", "desc": "Garrafa 600ml.", "ativo": true, "price": 8 },
+      { "name": "Coca-Cola 600ml", "desc": "Garrafa 600ml.", "ativo": true, "price": 9 },
+      { "name": "Coca-Cola 1L", "desc": "Garrafa 1 Litro", "ativo": true, "price": 12 },
+      { "name": "Coca-Cola 2L", "desc": "Garrafa 2 Litros", "ativo": true, "price": 17 },
+      { "name": "Sukita 2L", "desc": "Garrafa 2 Litros", "ativo": true, "price": 13 }
     ]
   }
 ];
 
         // INICIALIZAÇÃO
+        // Escuta o Firebase em tempo real: assim que os dados mudarem (em qualquer dispositivo),
+        // o cardápio do cliente atualiza sozinho, sem precisar recarregar a página.
         window.onload = function() {
-            const savedData = localStorage.getItem('pedacoDoCeuMenu');
-            if (savedData) {
-                try { menuData = JSON.parse(savedData); } catch(e) { console.error("Erro ao carregar dados", e); }
-            } else {
-                localStorage.setItem('pedacoDoCeuMenu', JSON.stringify(menuData));
-            }
-            renderCustomerMenu();
+            menuRef.on('value',
+                (snapshot) => {
+                    const savedData = snapshot.val();
+                    if (savedData) {
+                        menuData = savedData;
+                    } else {
+                        // Primeira vez que o site roda: envia os dados padrão para o Firebase
+                        menuRef.set(menuData);
+                    }
+                    renderCustomerMenu();
+                },
+                (error) => {
+                    console.error("Erro ao conectar ao Firebase:", error);
+                    renderCustomerMenu(); // usa os dados padrão em memória caso dê erro
+                }
+            );
         };
 
         // ====== FUNÇÕES DA VISÃO DO CLIENTE ====== //
@@ -950,6 +813,13 @@
 
         // ====== FUNÇÕES DA VISÃO DO ADMIN ====== //
 
+        function setSyncStatus(type, message) {
+            const el = document.getElementById('syncStatus');
+            if (!el) return;
+            el.className = 'sync-status ' + type;
+            el.textContent = message;
+        }
+
         // Converte array de tamanhos para string "P:15, M:20"
         function sizesToString(sizesArr) {
             if(!sizesArr || sizesArr.length === 0) return "";
@@ -969,6 +839,8 @@
         }
 
         function renderAdminPanel() {
+            setSyncStatus('ok', '✅ Conectado ao banco de dados (Firebase)');
+
             const container = document.getElementById('admin-sections-container');
             container.innerHTML = '';
 
@@ -1065,7 +937,7 @@
             }
         }
 
-        // Lê a tela do admin e salva na memória local
+        // Lê a tela do admin e grava no Firebase (fica disponível para todos os dispositivos)
         function saveAdminData() {
             const container = document.getElementById('admin-sections-container');
             const sectionDivs = container.querySelectorAll('.admin-section');
@@ -1107,14 +979,23 @@
             });
 
             menuData = newData;
-            localStorage.setItem('pedacoDoCeuMenu', JSON.stringify(menuData));
-            
-            alert("Cardápio salvo com sucesso!");
-            renderAdminPanel(); // re-renderiza para atualizar visual
-            renderCustomerMenu(); // Atualiza a visão do cliente nos bastidores
+            setSyncStatus('loading', 'Salvando no banco de dados...');
+
+            menuRef.set(menuData)
+                .then(() => {
+                    setSyncStatus('ok', '✅ Cardápio salvo e sincronizado com todos os dispositivos');
+                    alert("Cardápio salvo com sucesso! Todos os dispositivos serão atualizados automaticamente.");
+                    renderAdminPanel();
+                    // Não precisa chamar renderCustomerMenu() aqui: o listener menuRef.on('value', ...)
+                    // já é disparado automaticamente assim que o Firebase confirma a gravação.
+                })
+                .catch((error) => {
+                    setSyncStatus('error', '❌ Erro ao salvar: ' + error.message);
+                    alert("Erro ao salvar no Firebase: " + error.message + "\n\nVerifique se o firebaseConfig no código está correto e se as regras do banco permitem escrita.");
+                });
         }
 
-        // Ferramentas de Backup (Como o Github Pages é estático, isso ajuda a não perder dados se limpar o cache)
+        // Ferramentas de Backup (útil para ter uma cópia local do cardápio)
         function exportData() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(menuData, null, 2));
             const downloadAnchorNode = document.createElement('a');
@@ -1132,10 +1013,17 @@
                     const parsed = JSON.parse(input);
                     if (Array.isArray(parsed)) {
                         menuData = parsed;
-                        localStorage.setItem('pedacoDoCeuMenu', JSON.stringify(menuData));
-                        renderAdminPanel();
-                        renderCustomerMenu();
-                        alert("Backup importado com sucesso!");
+                        setSyncStatus('loading', 'Salvando no banco de dados...');
+                        menuRef.set(menuData)
+                            .then(() => {
+                                setSyncStatus('ok', '✅ Backup importado e sincronizado');
+                                renderAdminPanel();
+                                alert("Backup importado com sucesso!");
+                            })
+                            .catch((error) => {
+                                setSyncStatus('error', '❌ Erro ao salvar: ' + error.message);
+                                alert("Erro ao salvar no Firebase: " + error.message);
+                            });
                     } else {
                         alert("Formato de dados inválido.");
                     }
